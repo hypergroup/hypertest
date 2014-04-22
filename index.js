@@ -8,7 +8,12 @@ var read = require('fs').readFileSync;
 
 module.exports = function(test, opts, fn) {
   var runner = new Mocha(opts);
-  var conf = parse(yaml.load(read(test, 'utf8')));
+  try {
+    var str = read(test, 'utf8');
+  } catch (err) {
+    return fn(err);
+  };
+  var conf = parse(yaml.load(str));
 
   runner.suite.on('pre-require', function(g, file, self) {
     var name = 'hypertest-' + file;

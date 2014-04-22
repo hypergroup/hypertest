@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+var hypertest = require('..');
+
+var path = process.argv[2];
+if (!path) error('Error: missing path to test file');
+
+hypertest(path, {}, function(err) {
+  if (err) error(err.stack);
+});
+
+function error() {
+  console.error.apply(console, arguments);
+  process.exit(1);
+}
