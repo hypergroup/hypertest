@@ -31,6 +31,8 @@ describe(conf.host, function() {
             hyperagent: hyperagent,
             hyper: hyperagent,
             done: done,
+            fn: done,
+            cb: done,
             require: require
           };
           var args = getArgs(assert.fn);

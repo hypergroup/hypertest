@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// TODO use commander to parse arguments list mocha https://github.com/visionmedia/mocha/blob/master/bin/_mocha
+
 var hypertest = require('..');
 
 var path = process.argv[2];
