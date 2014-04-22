@@ -1,0 +1,23 @@
+{
+  "name": "hypertest",
+  "version": "0.1.0",
+  "description": "test a hyper+json API",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha"
+  },
+  "keywords": [
+    "hypermedia",
+    "json",
+    "test",
+    "API"
+  ],
+  "author": "Cameron Bytheway <bytheway.cameron@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hyperagent": "^0.2.0",
+    "should": "^3.3.1",
+    "js-yaml": "^3.0.2",
+    "mocha": "^1.18.2"
+  }
+}

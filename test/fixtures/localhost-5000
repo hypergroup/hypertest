@@ -1,0 +1,15 @@
+host: http://hyper-microblogapi-mock.herokuapp.com
+
+.account:
+  - should exist
+  - should eql 123
+.account.name:
+.account.image:
+  name: should be a valid image
+  fn: !!js/function >
+    function(val, should, require, done) {
+      should.exist(val);
+      val.should.have.property('src');
+      var http = require('http');
+      done();
+    }
