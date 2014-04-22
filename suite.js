@@ -11,9 +11,10 @@ describe(conf.host, function() {
     describe(test.path, function() {
       beforeEach(function(done) {
         var self = this;
-        hyperagent(test.path, function(err, value){
+        hyperagent(test.path, function(err, value, res) {
           if (err) return done(err);
           self.val = value;
+          self.res = res;
           done();
         });
       });
@@ -23,6 +24,7 @@ describe(conf.host, function() {
           var aliases = {
             val: this.val,
             value: this.val,
+            res: this.res,
             path: test.path,
             key: test.path,
             should: should,
