@@ -9,7 +9,7 @@ var hyperagent = require('hyperagent')(conf.host);
 describe(conf.host, function() {
   conf.tests.forEach(function(test) {
     describe(test.path, function() {
-      beforeEach(function(done) {
+      before(function(done) {
         var self = this;
         hyperagent(test.path, function(err, value, res) {
           if (err) return done(err);
