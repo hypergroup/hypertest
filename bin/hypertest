@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 
-// TODO use commander to parse arguments list mocha https://github.com/visionmedia/mocha/blob/master/bin/_mocha
-
+var fs = require('fs');
+var program = require('commander');
 var hypertest = require('..');
 
-var path = process.argv[2];
+program
+  .version(JSON.parse(fs.readFileSync(__dirname + '/../package.json', 'utf8')).version)
+  .option('-H, --host [host]', 'Override host')
+  .parse(process.argv);
+
+var path = program.args[0];
 if (!path) error('Error: missing path to test file');
 
-hypertest(path, {}, function(err) {
+hypertest(path, program, function(err) {
   if (err) error(err.stack);
 });
 

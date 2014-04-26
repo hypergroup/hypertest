@@ -6,14 +6,16 @@ var yaml = require('js-yaml');
 var Mocha = require('mocha');
 var read = require('fs').readFileSync;
 
-module.exports = function(test, opts, fn) {
-  var runner = new Mocha(opts);
+module.exports = function(test, program, fn) {
+  var runner = new Mocha();
+  var str;
   try {
-    var str = read(test, 'utf8');
+    str = read(test, 'utf8');
   } catch (err) {
     return fn(err);
-  };
+  }
   var conf = parse(yaml.load(str));
+  conf.host = program.host || conf.host;
 
   runner.suite.on('pre-require', function(g, file, self) {
     var name = 'hypertest-' + file;
@@ -51,7 +53,7 @@ function toFn(val, path) {
       return {
         name: assert,
         fn: parseShould(assert)
-      }
+      };
     })
   };
 }
@@ -63,7 +65,7 @@ function parseShould(str) {
   var arg = s.pop();
   if (s[0] === 'exist') return function(val, should) {
     should.exist(val);
-  }
+  };
   return function(val, should) {
     if (s.length === 1) return val.should[s[0]](arg);
     if (s.length === 2) return val.should[s[0]][s[1]](arg);
