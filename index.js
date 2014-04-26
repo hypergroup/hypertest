@@ -50,10 +50,25 @@ function toFn(val, path) {
       };
       return {
         name: assert,
-        fn: function(val, done) {
-          done();
-        }
+        fn: parseShould(assert)
       }
     })
+  };
+}
+
+function parseShould(str) {
+  var parts = str.split(' ');
+  if (parts.indexOf('should') !== 0) return;
+  var s = parts.slice(1);
+  var arg = s.pop();
+  if (s[0] === 'exist') return function(val, should) {
+    should.exist(val);
+  }
+  return function(val, should) {
+    if (s.length === 1) return val.should[s[0]](arg);
+    if (s.length === 2) return val.should[s[0]][s[1]](arg);
+    if (s.length === 3) return val.should[s[0]][s[1]][s[2]](arg);
+    if (s.length === 4) return val.should[s[0]][s[1]][s[2]][s[3]](arg);
+    if (s.length === 5) return val.should[s[0]][s[1]][s[2]][s[3]][s[4]](arg);
   };
 }
