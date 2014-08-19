@@ -63,9 +63,15 @@ function parseShould(str) {
   if (parts.indexOf('should') !== 0) return;
   var s = parts.slice(1);
   var arg = s.pop();
+  // If assertion is `should not exist`
+  if (arg === 'exist' && s[0] === 'not') return function(val, should) {
+    should.not.exist(val);
+  }
+  // If assertion is `should exist`
   if (arg === 'exist') return function(val, should) {
     should.exist(val);
   };
+
   return function(val, should) {
     if (s.length === 1) return val.should[s[0]](arg);
     if (s.length === 2) return val.should[s[0]][s[1]](arg);
