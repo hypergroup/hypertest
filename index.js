@@ -63,7 +63,7 @@ function parseShould(str) {
   if (parts.indexOf('should') !== 0) return;
   var s = parts.slice(1);
   var arg = s.pop();
-  if (s[0] === 'exist') return function(val, should) {
+  if (arg === 'exist') return function(val, should) {
     should.exist(val);
   };
   return function(val, should) {
