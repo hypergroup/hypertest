@@ -28,13 +28,22 @@ See [format](#format) for details.
 Format
 ------
 
-`hypertest` expects a yaml document describing the tests. A document includes the host name and a set of paths with one or more assertions.
+`hypertest` expects a yaml document describing the tests. A document includes the host name, optional headers and a set of paths with one or more assertions.
 
 The most basic assertion is a simple string. The available methods are described by [should.js](https://github.com/visionmedia/should.js/)
 
 ```yaml
 host: http://api.example.com
 
+.account.name: should exist
+```
+With (optional) headers
+```yaml
+host: http://api.example.com
+headers:
+  header1: value1
+  header2: value2
+  
 .account.name: should exist
 ```
 
