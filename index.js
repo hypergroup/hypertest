@@ -16,6 +16,7 @@ module.exports = function(test, program, fn) {
   }
   var conf = parse(yaml.load(str));
   conf.host = program.host || conf.host;
+  conf.headers = program.headers || conf.headers || null;
 
   runner.suite.on('pre-require', function(g, file, self) {
     var name = 'hypertest-' + file;
@@ -29,8 +30,16 @@ module.exports = function(test, program, fn) {
 };
 
 function parse(conf) {
-  var obj = {host: conf.host};
+  // Define object to be returned
+  var obj = {
+    host: conf.host
+  };
   delete conf.host;
+
+  // If headers are present in .yml test file, assign to obj
+  if(conf.headers) obj.headers = conf.headers;
+  delete conf.headers;
+
   obj.tests = Object.keys(conf).map(function(path) {
     var val = conf[path] || 'should exist';
     if (typeof val === 'string' || typeof val === 'function') val = [val];

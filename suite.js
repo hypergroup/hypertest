@@ -6,6 +6,8 @@ var should = require('should');
 var conf = global['hypertest-' + __filename];
 var hyperagent = require('hyperagent')(conf.host);
 
+if (conf.headers) hyperagent.set(conf.headers);
+
 describe(conf.host, function() {
   conf.tests.forEach(function(test) {
     describe(test.path, function() {
