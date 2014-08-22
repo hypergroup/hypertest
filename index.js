@@ -14,9 +14,20 @@ module.exports = function(test, program, fn) {
   } catch (err) {
     return fn(err);
   }
+
   var conf = parse(yaml.load(str));
   conf.host = program.host || conf.host;
   conf.headers = program.headers || conf.headers || null;
+
+  // Replace conf.host with env variable if it exists
+  var $host = conf.host[0] === '$' ? conf.host.substr(1) : null;
+  if ($host) conf.host = process.env[$host];
+
+  // Find and replace any env variables in conf.headers
+  for (var key in conf.headers) {
+    var $attr = conf.headers[key][0] === '$' ? conf.headers[key].substr(1) : null;
+    if ($attr) conf.headers[key] = process.env[$attr];
+  }
 
   runner.suite.on('pre-require', function(g, file, self) {
     var name = 'hypertest-' + file;
