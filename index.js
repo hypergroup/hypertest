@@ -5,8 +5,13 @@
 var yaml = require('js-yaml');
 var Mocha = require('mocha');
 var read = require('fs').readFileSync;
+var env = require('dotenv');
+
 
 module.exports = function(test, program, fn) {
+  // Load .env file
+  env.load();
+
   var runner = new Mocha();
   var str;
   try {
@@ -14,9 +19,19 @@ module.exports = function(test, program, fn) {
   } catch (err) {
     return fn(err);
   }
+
   var conf = parse(yaml.load(str));
   conf.host = program.host || conf.host;
   conf.headers = program.headers || conf.headers || null;
+
+  // Replace conf.host with env variable if it exists
+  if (process.env[conf.host]) conf.host = process.env[conf.host];
+
+  // Find and replace any env variables in conf.headers
+  for (var key in conf.headers) {
+    var attr = conf.headers[key];
+    if (process.env[attr]) conf.headers[key] = process.env[attr];
+  }
 
   runner.suite.on('pre-require', function(g, file, self) {
     var name = 'hypertest-' + file;
