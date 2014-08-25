@@ -46,6 +46,12 @@ headers:
   
 .account.name: should exist
 ```
+Additionally, reference to environment variables is possible 
+```yaml
+host: $HOST
+headers:
+  authorization: $AUTH_TOKEN
+```
 
 Since `should exist` is so common it is the default assertion.
 
