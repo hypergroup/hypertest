@@ -5,12 +5,9 @@
 var yaml = require('js-yaml');
 var Mocha = require('mocha');
 var read = require('fs').readFileSync;
-var env = require('dotenv');
 
 
 module.exports = function(test, program, fn) {
-  // Load .env file
-  env.load();
 
   var runner = new Mocha();
   var str;
